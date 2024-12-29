@@ -5,7 +5,8 @@ function Error() {
 
   // extract actual error thrown
   const error = useRouteError();
-  console.log(error);
+
+  // console.log(error);
 
   return (
     <div>
