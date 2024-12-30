@@ -5,7 +5,7 @@ import MenuItem from './MenuItem';
 function Menu() {
   // get menu data from loader
   const menu = useLoaderData();
-  console.log(menu);
+  // console.log(menu);
 
   return (
     <ul>

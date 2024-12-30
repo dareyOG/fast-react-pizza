@@ -42,7 +42,6 @@ import { calcMinutesLeft, formatCurrency, formatDate } from '../../utils/helpers
 function Order() {
   // get order data from loader
   const order = useLoaderData();
-
   // console.log(order);
 
   // Everyone can search for all orders, so for privacy reasons we're gonna exclude names or address, these are only for the restaurant staff
@@ -80,8 +79,9 @@ function Order() {
 
 // load inputted id menu data
 export async function loader({ params }) {
-  // useParams(); // useParams() are used in components, since they're hooks,and not in regular functions.
+  // useParams(); // useParams() are hooks used in components, and not in regular functions.
   const order = await getOrder(params.orderId);
+  // console.log(order);
 
   return order;
 }
