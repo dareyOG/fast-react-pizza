@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Form, redirect, useNavigation } from 'react-router';
+import { Form, redirect, useActionData, useNavigation } from 'react-router';
 import { createOrder } from '../../services/apiRestaurant';
 
 // https://uibakery.io/regex-library/phone-number
@@ -34,6 +34,8 @@ function CreateOrder() {
   const navigate = useNavigation();
   const isSubmitting = navigate.state === 'submitting';
 
+  const formError = useActionData();
+
   // const [withPriority, setWithPriority] = useState(false);
   const cart = fakeCart;
 
@@ -53,6 +55,7 @@ function CreateOrder() {
           <div>
             <input type="tel" name="phone" required />
           </div>
+          {formError?.phone && <p>{formError.phone}</p>}
         </div>
 
         <div>
@@ -98,12 +101,18 @@ export async function action({ request }) {
   };
   // console.log(order);
 
-  // create order
+  const errors = {};
+
+  if (!isValidPhone(order.phone))
+    errors.phone = 'Please give a correct phone number, we might need it to contact you.';
+
+  if (Object.keys(errors).length > 0) return errors;
+
+  // when everything is valid, create order and redirect
   const newOrder = await createOrder(order);
   // console.log(newOrder);
 
   // navigate to /order/orderId; useNavigate() can't be used, same reason as useParams().
-
   return redirect(`/order/${newOrder.id}`);
 }
 
