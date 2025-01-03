@@ -38,6 +38,7 @@ function CreateOrder() {
   const isSubmitting = navigate.state === 'submitting';
 
   const formError = useActionData();
+  console.log(formError);
 
   // const [withPriority, setWithPriority] = useState(false);
   const cart = fakeCart;
@@ -142,4 +143,3 @@ export async function action({ request }) {
 }
 
 export default CreateOrder;
-``;
