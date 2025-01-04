@@ -22,6 +22,7 @@ function MenuItem({ pizza }) {
           ) : (
             <p className="font-medium uppercase text-stone-500">Sold out</p>
           )}
+
           <Button type="small">Add to Cart</Button>
         </div>
       </div>

@@ -20,6 +20,7 @@ function Button({ children, disabled, to, type }) {
         {children}
       </Link>
     );
+
   return (
     <button disabled={disabled} className={buttonStyle[type]}>
       {children}
