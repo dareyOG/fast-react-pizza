@@ -2,11 +2,11 @@ import Header from './Header';
 import CartOverView from '../features/cart/CartOverView';
 import { Outlet, useNavigation } from 'react-router';
 import Loader from './Loader';
+import { useSelector } from 'react-redux';
 
 function AppLayout() {
   // display navigation state
   const navigation = useNavigation();
-
   // console.log(navigation);
 
   const isLoading = navigation.state === 'loading';
