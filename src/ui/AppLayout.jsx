@@ -1,5 +1,5 @@
 import Header from './Header';
-import CartOverView from '../features/cart/CartOverView';
+import CartOverview from '../features/cart/CartOverview';
 import { Outlet, useNavigation } from 'react-router';
 import Loader from './Loader';
 import { useSelector } from 'react-redux';
@@ -21,7 +21,7 @@ function AppLayout() {
         </main>
       </div>
 
-      <CartOverView />
+      <CartOverview />
     </div>
   );
 }

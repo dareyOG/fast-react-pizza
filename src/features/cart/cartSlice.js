@@ -26,17 +26,26 @@ const cartSlice = createSlice({
   reducers: {
     addItem(state, action) {
       // payload = newItem
+
+      // spread method
       // state.cart = [...state.cart, action.payload];
 
+      // push method
       state.cart.push(action.payload);
     },
 
     deleteItem(state, action) {
       // payload = Id
+
+      // filter method
       // state.cart = state.cart.filter((item) => item.id !== action.payload);
 
-      const item = (item) => item.id === action.payload.id;
-      state.cart.splice(state.cart.findIndex(item), 1);
+      // splice method
+      const itemIndex = state.cart.findIndex(
+        (item) => item.id === action.payload,
+      );
+
+      state.cart.splice(itemIndex, 1);
     },
 
     increaseItemQuantity(state, action) {
@@ -78,3 +87,6 @@ export const getTotalCartQuantity = (state) =>
 
 export const getTotalCartPrice = (state) =>
   state.cart.cart.reduce((sum, item) => sum + item.totalPrice, 0);
+
+export const getCurrentQuantityById = (id) => (state) =>
+  state.cart.cart.find((item) => item.id === id)?.quantity ?? 0;
