@@ -1,10 +1,6 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Button from '../../ui/Button';
-import {
-  decreaseItemQuantity,
-  getCurrentQuantityById,
-  increaseItemQuantity,
-} from './cartSlice';
+import { decreaseItemQuantity, increaseItemQuantity } from './cartSlice';
 
 function UpdateItemQuantity({ id, currentQuantity }) {
   const dispatch = useDispatch();
