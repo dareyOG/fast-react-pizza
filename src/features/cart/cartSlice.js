@@ -44,21 +44,21 @@ const cartSlice = createSlice({
       const itemIndex = state.cart.findIndex(
         (item) => item.id === action.payload,
       );
-
       state.cart.splice(itemIndex, 1);
     },
 
     increaseItemQuantity(state, action) {
-      const item = state.cart.find((item) => item.id === action.payload.id);
+      const item = state.cart.find((item) => item.id === action.payload);
 
-      item.quantity = +1;
+      item.quantity += 1;
       item.totalPrice = item.quantity * item.unitPrice;
     },
 
     decreaseItemQuantity(state, action) {
-      const item = state.cart.find((item) => item.id === action.payload.id);
+      const item = state.cart.find((item) => item.id === action.payload);
 
-      item.quantity = -1;
+      item.quantity -= 1;
+      if (item.quantity === 0) cartSlice.caseReducers.deleteItem(state, action);
       item.totalPrice = item.quantity * item.unitPrice;
     },
 
