@@ -22,12 +22,18 @@ export const fetchAddress = createAsyncThunk(
     const address = `${addressObj?.locality}, ${addressObj?.city} ${addressObj?.postcode}, ${addressObj?.countryName}`;
 
     // 3) Then we return an object with the data that we are interested in
+
+    // payload of fufilled state
     return { position, address };
   },
 );
 
 const initialState = {
   username: '',
+  status: 'idle',
+  position: {},
+  address: '',
+  error: '',
 };
 
 const userSlice = createSlice({
@@ -38,6 +44,21 @@ const userSlice = createSlice({
       state.username = action.payload;
     },
   },
+  // connecting thunk with the reducer
+  extraReducers: (builder) =>
+    builder
+      .addCase(fetchAddress.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchAddress.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.position = action.payload.position;
+        state.address = action.payload.address;
+      })
+      .addCase(fetchAddress.rejected, (state, action) => {
+        state.status = 'error';
+        state.error = action.error.message;
+      }),
 });
 
 export const { updateName } = userSlice.actions;
