@@ -1,43 +1,19 @@
 import { useState } from 'react';
-import { Form, redirect, useActionData, useNavigation } from 'react-router';
-import { createOrder } from '../../services/apiRestaurant';
-import Button from '../../ui/Button';
-import EmptyCart from '../cart/EmptyCart';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearCart, getCart, getTotalCartPrice } from '../cart/cartSlice';
+import { Form, redirect, useActionData, useNavigation } from 'react-router';
+import EmptyCart from '../cart/EmptyCart';
 import { fetchAddress } from '../user/userSlice';
+import { createOrder } from '../../services/apiRestaurant';
 import store from '../../store';
+import { clearCart, getCart, getTotalCartPrice } from '../cart/cartSlice';
 import { formatCurrency } from '../../utils/helpers';
+import Button from '../../ui/Button';
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
   /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
     str,
   );
-
-/* const fakeCart = [
-  {
-    pizzaId: 12,
-    name: 'Mediterranean',
-    quantity: 2,
-    unitPrice: 16,
-    totalPrice: 32,
-  },
-  {
-    pizzaId: 6,
-    name: 'Vegetale',
-    quantity: 1,
-    unitPrice: 13,
-    totalPrice: 13,
-  },
-  {
-    pizzaId: 11,
-    name: 'Spinach and Mushroom',
-    quantity: 1,
-    unitPrice: 15,
-    totalPrice: 15,
-  },
-]; */
 
 function CreateOrder() {
   const [withPriority, setWithPriority] = useState(false);
@@ -52,8 +28,8 @@ function CreateOrder() {
 
   const isLoadingAddress = addressStatus === 'loading';
 
-  const navigate = useNavigation();
-  const isSubmitting = navigate.state === 'submitting';
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === 'submitting';
 
   const formError = useActionData();
   // console.log(formError);
@@ -68,6 +44,11 @@ function CreateOrder() {
   const priorityPrice = withPriority ? 0.2 * totalCartPrice : 0;
 
   const totalPrice = totalCartPrice + priorityPrice;
+
+  const pos = {
+    lat: position.latitude,
+    lng: position.longitude,
+  };
 
   if (!cart.length) return <EmptyCart />;
 
@@ -157,21 +138,15 @@ function CreateOrder() {
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
 
           {/* pass geolocation data as hidden data into form action  */}
-
           <input
             type="hidden"
             name="position"
             value={
-              position.latitude && position.longitude
-                ? JSON.stringify({
-                    lat: +`${position.latitude}`, // my choice
-                    lng: +`${position.longitude}`,
-                  })
-                : ''
+              position.latitude && position.longitude ? JSON.stringify(pos) : ''
             }
           />
           {/* Alternatively, */}
-          {/* <input
+          {/*  <input
             type="hidden"
             name="position"
             value={
@@ -204,10 +179,10 @@ export async function action({ request }) {
     // priority: data.priority === 'on',
     priority: data.priority === 'true',
     cart: JSON.parse(data.cart),
-    position: JSON.parse(data.position),
+    // position: JSON.parse(data.position),
   };
 
-  // console.log(order);
+  console.log(order);
 
   const errors = {};
 
