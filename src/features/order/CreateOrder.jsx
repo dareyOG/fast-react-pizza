@@ -153,7 +153,33 @@ function CreateOrder() {
 
         <div>
           {/* pass cart object as hidden data which is then captured by the action function */}
+          {/* value has to be a string else, use JSON.stringify() */}
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
+
+          {/* pass geolocation data as hidden data into form action  */}
+
+          <input
+            type="hidden"
+            name="position"
+            value={
+              position.latitude && position.longitude
+                ? JSON.stringify({
+                    lat: +`${position.latitude}`, // my choice
+                    lng: +`${position.longitude}`,
+                  })
+                : ''
+            }
+          />
+          {/* Alternatively, */}
+          {/* <input
+            type="hidden"
+            name="position"
+            value={
+              position.latitude && position.longitude
+                ? `${position.latitude},${position.longitude}`
+                : ''
+            }
+          /> */}
 
           <Button disabled={isSubmitting || isLoadingAddress} type="primary">
             {isSubmitting
@@ -178,6 +204,7 @@ export async function action({ request }) {
     // priority: data.priority === 'on',
     priority: data.priority === 'true',
     cart: JSON.parse(data.cart),
+    position: JSON.parse(data.position),
   };
 
   // console.log(order);
