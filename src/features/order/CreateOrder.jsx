@@ -182,7 +182,7 @@ export async function action({ request }) {
     position: JSON.parse(data.position),
   };
 
-  console.log(order);
+  // console.log(order);
 
   const errors = {};
 

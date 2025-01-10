@@ -109,11 +109,11 @@ function Order() {
         {cart.map((item) => (
           <OrderItem
             item={item}
-            // isLoadingIngredients={fetcher.state === 'loading'}
-            // ingredients={
-            //   fetcher.data?.find((itemEl) => itemEl.id === item.pizzaId)
-            //     ?.ingredients
-            // }
+            isLoadingIngredients={fetcher.state === 'loading'}
+            ingredients={
+              fetcher.data?.find((itemEl) => itemEl.id === item.pizzaId)
+                ?.ingredients
+            }
             key={item.pizzaId}
           />
         ))}
