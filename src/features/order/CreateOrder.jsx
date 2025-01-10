@@ -145,7 +145,7 @@ function CreateOrder() {
               position.latitude && position.longitude ? JSON.stringify(pos) : ''
             }
           />
-          {/* Alternatively, */}
+          {/* Alternatively as a string literal*/}
           {/*  <input
             type="hidden"
             name="position"
@@ -179,7 +179,7 @@ export async function action({ request }) {
     // priority: data.priority === 'on',
     priority: data.priority === 'true',
     cart: JSON.parse(data.cart),
-    // position: JSON.parse(data.position),
+    position: JSON.parse(data.position),
   };
 
   console.log(order);

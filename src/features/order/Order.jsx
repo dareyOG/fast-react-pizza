@@ -1,5 +1,6 @@
 // Test ID: IIDSAT
 
+import { useEffect } from 'react';
 import { useFetcher, useLoaderData } from 'react-router';
 import OrderItem from '../order/OrderItem';
 import { getOrder } from '../../services/apiRestaurant';
@@ -8,7 +9,7 @@ import {
   formatCurrency,
   formatDate,
 } from '../../utils/helpers';
-import { useEffect } from 'react';
+import UpdateOrder from './UpdateOrder';
 
 /* const order = {
   id: 'ABCDEF',
@@ -73,6 +74,7 @@ function Order() {
     estimatedDelivery,
     cart,
   } = order;
+
   const deliveryIn = calcMinutesLeft(estimatedDelivery);
 
   return (
@@ -107,11 +109,11 @@ function Order() {
         {cart.map((item) => (
           <OrderItem
             item={item}
-            isLoadingIngredients={fetcher.state === 'loading'}
-            ingredients={
-              fetcher.data?.find((itemEl) => itemEl.id === item.pizzaId)
-                ?.ingredients
-            }
+            // isLoadingIngredients={fetcher.state === 'loading'}
+            // ingredients={
+            //   fetcher.data?.find((itemEl) => itemEl.id === item.pizzaId)
+            //     ?.ingredients
+            // }
             key={item.pizzaId}
           />
         ))}
@@ -130,12 +132,15 @@ function Order() {
           To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}
         </p>
       </div>
+      {/* update order delivery priority */}
+      {!priority && <UpdateOrder priority={priority} />}
     </div>
   );
 }
 
 // load inputted id menu data
 export async function loader({ params }) {
+  // console.log(params);
   // useParams(); // useParams() are hooks used in components, and not in regular functions.
   const order = await getOrder(params.orderId);
   // console.log(order);
